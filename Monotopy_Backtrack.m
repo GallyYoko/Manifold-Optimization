@@ -1,4 +1,4 @@
-function t = Monotopy_Backtrack(func,gradfunc,x,t0,rho,c,iteration,method)
+function t = Monotopy_Backtrack(func,gradfunc,x,v,t0,rho,c,iteration,method)
 %{
 
 基于单调线搜索的回退法
@@ -7,6 +7,7 @@ function t = Monotopy_Backtrack(func,gradfunc,x,t0,rho,c,iteration,method)
 func--------光滑函数
 gradfunc----光滑函数func的梯度
 x-----------流形上的点
+v-----------前进方向
 t0----------初始步长
 rho---------回退幅度
 c-----------Armijo条件的判据

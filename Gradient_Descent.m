@@ -17,10 +17,13 @@ epsilon-----梯度阈值
 
 %}
 x = x0;
+results = zeros(iteration2,1);
 for i = 1:iteration2
     if norm(gradfunc(x),"fro") <= epsilon
         break;
     end
-    t = Monotopy_Backtrack(func,gradfunc,x,t0,rho,c,iteration1,method);
+    t = Monotopy_Backtrack(func,gradfunc,x,-gradfunc(x),t0,rho,c,iteration1,method);
     x = Retract(x,-t*gradfunc(x),method);
+    results(i,1) = func(x);
 end
+plot(results);
