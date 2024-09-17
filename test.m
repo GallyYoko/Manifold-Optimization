@@ -14,10 +14,10 @@ x0 = Random_Initial(n,p,seed);
 t0 = 10;
 rho = 0.5;
 c = 0.001;
-iteration1 = 1000;
+iteration1 = 100;
 method = "qr";
 iteration2 = 1000;
 epsilon = 10e-8;
 
 %% 使用算法
-Gradient_Descent_N(func,gradfunc,x0,t0,10,rho,c,iteration1,method,iteration2,epsilon);
+BB_Method(func,gradfunc,x0,t0,5,100,1,rho,c,iteration1,method,iteration2,epsilon);
