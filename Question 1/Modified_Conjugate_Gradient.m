@@ -41,4 +41,5 @@ for i = 1:iteration
     p = r1+b*p;
     z = z1;
     r = r1;
+    d = z;
 end

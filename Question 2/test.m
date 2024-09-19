@@ -16,8 +16,11 @@ rho = 0.5;
 c = 0.001;
 iteration1 = 100;
 method = "qr";
-iteration2 = 1000;
+iteration2 = 1500;
 epsilon = 10e-8;
 
+%% 计算最小值的精确值
+exa = Exact_Value(A,B);
+
 %% 使用算法
-BB_Method(func,gradfunc,x0,t0,5,100,1,rho,c,iteration1,method,iteration2,epsilon);
+BB_Method(func,gradfunc,x0,t0,5,100,0.01,rho,c,iteration1,method,iteration2,epsilon,exa);

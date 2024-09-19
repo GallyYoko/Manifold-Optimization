@@ -1,4 +1,4 @@
-function BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon)
+function BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,exa)
 %{
 
 基于非单调线搜索回退法的梯度下降法
@@ -17,6 +17,7 @@ iteration1--回退法的最大迭代次数
 method------收缩映射的方式
 iteration2--梯度下降法的最大迭代次数
 epsilon-----梯度阈值
+exa---------精确值
 
 %}
 [n,p] = size(x0);
@@ -56,4 +57,5 @@ for i = 1:iteration2
     end
     alpha = min(alphamax,max(alphamin,alphaABB));
 end
-plot(results);
+err = (results-exa)/abs(exa);
+semilogy(1:iteration2,err);
