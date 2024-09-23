@@ -57,5 +57,5 @@ for i = 1:iteration2
     end
     alpha = min(alphamax,max(alphamin,alphaABB));
 end
-err = (results-exa)/abs(exa);
+err = abs(results-exa)/abs(exa);
 semilogy(1:iteration2,err);

@@ -1,4 +1,4 @@
-function Gradient_Descent_N(func,gradfunc,x0,t0,M,rho,c,iteration1,method,iteration2,epsilon)
+function Gradient_Descent_N(func,gradfunc,x0,t0,M,rho,c,iteration1,method,iteration2,epsilon,exa)
 %{
 
 基于非单调线搜索回退法的梯度下降法
@@ -15,6 +15,7 @@ iteration1--回退法的最大迭代次数
 method------收缩映射的方式
 iteration2--梯度下降法的最大迭代次数
 epsilon-----梯度阈值
+exa---------精确值
 
 %}
 [n,p] = size(x0);
@@ -30,7 +31,7 @@ for i = 1:iteration2
     t = t0;
     min_i = min(i,M);
     for j = 1:iteration1
-        judgement = (func(Retract(x,t*v,method))<=func(X(:,:,1))-c*t*norm(v,"fro")^2);
+        judgement = 0;
         for ind = 1:min_i % 获得非单调线搜索的判别准则
             judgement = judgement|(func(Retract(x,t*v,method))<=func(X(:,:,ind))-c*t*norm(v,"fro")^2);
         end
@@ -39,8 +40,10 @@ for i = 1:iteration2
         end
         t = rho*t;
     end
+    disp(j);
     x = Retract(x,t*v,method);
     X(:,:,mod(i,M)+1) = x; % 更新非单调线搜索的迭代点列表
     results(i,1) = func(x);
 end
-plot(results);
+err = abs(results-exa)/abs(exa);
+semilogy(1:iteration2,err);

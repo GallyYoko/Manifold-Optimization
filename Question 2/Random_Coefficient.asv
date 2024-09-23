@@ -14,6 +14,6 @@ A,B---------二次函数tr(X'*A*X-2X'*B)的系数
 rng(seed);
 A = randn(n,n);
 a = rand(n,1);
-A = A'*A+diag(a);
-A = A/n;
+A = (A'*A)/n;
+A = A+diag(a);
 B = randn(n,p);
