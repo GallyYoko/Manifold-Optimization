@@ -1,4 +1,4 @@
-function BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,exa)
+function [err,err_x] = BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,exa,exa_x)
 %{
 
 基于非单调线搜索回退法的梯度下降法
@@ -27,6 +27,8 @@ alpha = alpha0;
 X(:,:,1) = x1;
 v1 = -gradfunc(x1);
 results = zeros(iteration2,1);
+err = zeros(iteration2,1);
+err_x = zeros(iteration2,1);
 for i = 1:iteration2
     x = x1;
     v = v1;
@@ -35,7 +37,8 @@ for i = 1:iteration2
     end
     min_i = min(i,M);
     for j = 1:iteration1
-        judgement = (func(Retract(x,alpha*v,method))<=func(X(:,:,1))-c*alpha*norm(v,"fro")^2);
+        %judgement = (func(Retract(x,alpha*v,method))<=func(X(:,:,1))-c*alpha*norm(v,"fro")^2);
+        judgement = 0;
         for ind = 1:min_i % 获得非单调线搜索的判别准则
             judgement = judgement|(func(Retract(x,alpha*v,method))<=func(X(:,:,ind))-c*alpha*norm(v,"fro")^2);
         end
@@ -47,9 +50,11 @@ for i = 1:iteration2
     x1 = Retract(x,alpha*v,method);
     X(:,:,mod(i,M)+1) = x1; % 更新非单调线搜索的迭代点列表
     results(i,1) = func(x1);
+    err(i,1) = abs(func(x1)-exa)/abs(exa);
+    err_x(i,1) = norm(x1-exa_x,"fro");
     v1 = -gradfunc(x1);
     s = x1-x;
-    y = v1-v;
+    y = v-v1;
     if mod(i,2) == 0
         alphaABB = trace(s'*s)/trace(s'*y);
     else
@@ -57,5 +62,3 @@ for i = 1:iteration2
     end
     alpha = min(alphamax,max(alphamin,alphaABB));
 end
-err = abs(results-exa)/abs(exa);
-semilogy(1:iteration2,err);

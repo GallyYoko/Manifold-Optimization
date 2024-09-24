@@ -97,16 +97,16 @@
 
 \subsection{梯度下降算法与BB算法的比较}
 
-本小节中, 我们使用基于单调线搜索的梯度下降算法与基于非单调线搜索的BB算法对二次函数$f(X)=\textup{tr}(X^T AX+X^T B)$进行优化. 在参数选择上, 我们使用以下参数: \\
+本小节中, 我们使用基于单调线搜索的梯度下降算法与基于非单调线搜索的BB算法对二次函数$f(X)=\textup{tr}(X^T AX+X^T B)$进行优化. 在参数选择上, 我们使用表\ref{tab1}中的参数值. 对于两个算法, 随机选取初始点$X_0$, 均使用基于QR算法的收缩映射. \par
 \begin{table}[htbp]
-    \caption{算法参数}
+    \caption{算法参数}\label{tab1}
     \centering
     \begin{tabular}{c|cc}
         \hline
         \hline
         参数 & 具体数值 & 参数描述\\
         \hline
-        $t_0$ & $1$ & 回退法的初始步长\\
+        $t_0$ & $0.02$ & 回退法的初始步长\\
         $\rho$ & $0.5$ & 回退幅度\\
         $c$ & $0.001$ & Armijo条件的系数\\
         $M$ & $5$ & 非单调线搜索的前项个数\\
@@ -115,8 +115,18 @@
         \hline
         \hline
     \end{tabular}
-\end{table}\\
-对于两个算法, 随机选取初始点$X_0$, 均使用基于QR算法的收缩映射. \par
-首先, 观察一下梯度值$\textup{grad}f$随迭代次数的变化情况. 
+\end{table}
+我们先分析一下两个算法的收敛速度, 观察函数值$f(X_k)$与点列$X_k$的误差变化情况, 结果见图\ref{fig1}, 其中左图为函数值$f(X_k)$的相对误差随迭代次数的变化情况, 右图为点列$X_k$关于极小值点$X^*$的相对误差, 其度量为两点作为$\mathbb{R}^{n\times p}$矩阵时, 差值$X_k-X^*$的Frobenius范数. 从图\ref{fig1}中可以看出, 两个算法都在$50$步内迭代到了极小值点, 精度达到了机器精度, 这两个算法的收敛速度都是线性收敛, 且BB算法的速度要显著快于梯度下降算法. \par
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Q2-figure/1.png}
+    \caption{相对误差的变化情况}\label{fig1}
+\end{figure}
+值得注意的是, 在图\ref{fig1}中, 函数值的收敛速度比点列的收敛速度更快, 这一点是由二次函数的性质产生的. 为了说明这一点, 我们来观察一下梯度值$\textup{grad}f(X_k)$随迭代次数的变化情况, 结果见图\ref{fig2}. 从图\ref{fig2}中可以看到, 两个算法都在$50$步循环内使Riemann梯度$\textup{grad}f(X)$的范数达到了收敛值$10^{-13}$, 且图像表现高度近似图\ref{fig1}中点列的相对误差变化图. 为了解释这一现象, 考察$\textup{grad}f(X)$的表达式, 可以得到
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Q2-figure/2.png}
+    \caption{$\textup{grad}f(X)$的变化情况}\label{fig2}
+\end{figure}
 
 \end{document}

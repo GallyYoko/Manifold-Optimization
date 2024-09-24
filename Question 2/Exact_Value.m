@@ -1,4 +1,4 @@
-function result = Exact_Value(A,B)
+function [result,x] = Exact_Value(A,B)
 func = @(x) trace(x'*A*x-2*x'*B);
 nablafunc = @(x) 2*A*x-2*B;
 gradfunc = @(x) nablafunc(x)-x*(x'*nablafunc(x)+nablafunc(x)'*x)/2;
@@ -42,7 +42,7 @@ for i = 1:iteration2
     results(i,1) = func(x1);
     v1 = -gradfunc(x1);
     s = x1-x;
-    y = v1-v;
+    y = v-v1;
     if mod(i,2) == 0
         alphaABB = trace(s'*s)/trace(s'*y);
     else
