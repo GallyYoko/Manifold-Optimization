@@ -69,7 +69,7 @@
 首先考虑实现二次函数的随机生成问题. 对于整数$n\geq p>0$, 欧氏空间$\mathbb{R}^{n\times p}$上的$Stiefel$流形为
 \[\textup{St}(n,p)=\{X\in\mathbb{R}^{n\times p}|X^T X=I_p\}.\]
 对于矩阵$B\in \mathbb{R}^{n\times p}$和对称正定矩阵$A\in\mathbb{R}^{n\times n}$, $St(n,p)$上的二次函数定义为
-\[f(X;A,B)=\textup{tr}(X^T AX+X^T B).\]
+\[f(X;A,B)=\textup{tr}(X^T AX+2X^T B).\]
 故二次函数$f$的生成问题等价于矩阵$A,B$的生成问题. 在MATLAB中, 可以使用\textbf{randn}函数随机生成矩阵, 因此, 可以取
 \[B\leftarrow \textup{randn}(n,p).\]
 但MATLAB中并没有直接生成对称正定矩阵的函数. 为了随机生成$A$, 先考虑一个简单的引理: 
@@ -97,9 +97,8 @@
 
 \subsection{梯度下降算法与BB算法的比较}
 
-本小节中, 我们使用基于单调线搜索的梯度下降算法与基于非单调线搜索的BB算法对二次函数$f(X)=\textup{tr}(X^T AX+X^T B)$进行优化. 在参数选择上, 我们使用表\ref{tab1}中的参数值. 对于两个算法, 随机选取初始点$X_0$, 均使用基于QR算法的收缩映射. \par
+本小节中, 我们使用基于单调线搜索的梯度下降算法与基于非单调线搜索的BB算法对二次函数$f(X)=\textup{tr}(X^T AX+2X^T B)$进行优化. 在参数选择上, 我们使用表\ref{tab1}中的参数值. \par
 \begin{table}[htbp]
-    \caption{算法参数}\label{tab1}
     \centering
     \begin{tabular}{c|cc}
         \hline
@@ -115,18 +114,26 @@
         \hline
         \hline
     \end{tabular}
+    \caption{算法参数}\label{tab1}
 \end{table}
-我们先分析一下两个算法的收敛速度, 观察函数值$f(X_k)$与点列$X_k$的误差变化情况, 结果见图\ref{fig1}, 其中左图为函数值$f(X_k)$的相对误差随迭代次数的变化情况, 右图为点列$X_k$关于极小值点$X^*$的相对误差, 其度量为两点作为$\mathbb{R}^{n\times p}$矩阵时, 差值$X_k-X^*$的Frobenius范数. 从图\ref{fig1}中可以看出, 两个算法都在$50$步内迭代到了极小值点, 精度达到了机器精度, 这两个算法的收敛速度都是线性收敛, 且BB算法的速度要显著快于梯度下降算法. \par
+我们先分析一下两个算法的收敛速度, 随机选取初始点$X_0$, 在算法中使用基于QR分解的收缩映射, 观察函数值$f(X_k)$与点列$X_k$的误差变化情况, 结果见图\ref{fig1}, 其中左图为函数值$f(X_k)$的相对误差随迭代次数的变化情况, 右图为点列$X_k$关于极小值点$X^*$的相对误差, 其度量为两点作为$\mathbb{R}^{n\times p}$矩阵时, 差值$X_k-X^*$的Frobenius范数. \par
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{Q2-figure/1.png}
+    \includegraphics[width=0.7\textwidth]{Q2-figure/1.png}
     \caption{相对误差的变化情况}\label{fig1}
 \end{figure}
-值得注意的是, 在图\ref{fig1}中, 函数值的收敛速度比点列的收敛速度更快, 这一点是由二次函数的性质产生的. 为了说明这一点, 我们来观察一下梯度值$\textup{grad}f(X_k)$随迭代次数的变化情况, 结果见图\ref{fig2}. 从图\ref{fig2}中可以看到, 两个算法都在$50$步循环内使Riemann梯度$\textup{grad}f(X)$的范数达到了收敛值$10^{-13}$, 且图像表现高度近似图\ref{fig1}中点列的相对误差变化图. 为了解释这一现象, 考察$\textup{grad}f(X)$的表达式, 可以得到
+从图\ref{fig1}中可以看出: 首先, 两个算法都在$50$步内迭代到了最小值点, 误差达到了机器精度; 其次, 这两个算法的收敛速度都是线性收敛, 且BB算法的速度要显著快于梯度下降算法; 最后, 函数值的收敛速度比点列的收敛速度更快, 这一点是由二次函数的性质产生的. \par
+接下来, 对于不同的收缩映射算法, 我们对比一下算法的收敛速度, 结果见图\ref{fig2}, 其中左图均为函数值的相对误差变化情况, 右图均为点列的相对误差变化情况, 第一行为使用梯度下降算法得到的误差变化图, 第二行为使用BB算法得到的误差变化图. \par
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{Q2-figure/2.png}
-    \caption{$\textup{grad}f(X)$的变化情况}\label{fig2}
+    \includegraphics[width=0.7\textwidth]{Q2-figure/2.png}
+    \caption{不同收缩映射算法的表现}\label{fig2}
 \end{figure}
+从图\ref{fig2}中可以看到, 不同收缩映射算法在函数值上的表现是相同的, 以同样的速度线性收敛. 值得一提的是, 基于Cayley变换的收缩映射算法会导致BB算法在前几次迭代的效果略差, 但在之后的迭代中仍然获得了和其他收缩映射算法相同的收敛速度. 当考察自变量$X$的收敛情况时, 不同的收缩映射算法产生了不同的表现. 在BB算法中, 基于Cayley变换的收缩映射算法仍然在前几次迭代中表现略差, 不过在长期迭代中, 这些收缩映射的表现是类似的; 但在梯度下降算法中, 基于QR分解和Cayley变换的收缩映射算法很快到达了机器精度, 基于SVD分解的收缩映射算法在20次迭代后放缓了收敛速度, 基于极分解的收缩映射算法只能达到$10^{-6}$精度, 无法达到机器精度. \par
+值得特别一提的是, 在理论上, 基于SVD分解的收缩映射和基于极分解的收缩映射应当是同一个, 但这两种不同的收缩映射在梯度下降算法下的表现是不同的, 这可能是计算误差导致的: 在实现基于SVD分解的收缩映射时, 我们直接使用了MATLAB内置的\textbf{svd}函数, 这一函数是使用商业库MKL构建的, 因此会进行专业的优化, 达到比极分解更好的表现. \par
+在下一节中, 我们将进一步讨论不同收缩映射的不同表现. 
+
+\subsection{梯度下降算法中非单调线搜索的作用}
+
 
 \end{document}

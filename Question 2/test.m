@@ -27,22 +27,59 @@ M = 5;
 [exa,exa_x] = Exact_Value(A,B);
 
 %% 使用算法
-[e1,ex1] = Gradient_Descent_N(func,gradfunc,x0,t0,M,rho,c,iteration1,method,iteration2,epsilon,exa,exa_x);
-[e2,ex2] = BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,exa,exa_x);
+[err,err_x] = Gradient_Descent_N(func,gradfunc,x0,t0,M,rho,c,iteration1,method,iteration2,epsilon,exa,exa_x);
+semilogy(1:iteration2,err);
 
-
-subplot(1,2,1)
-semilogy(1:iteration2, e1)
+%{
+subplot(2,2,1)
+semilogy(1:25, e11(1:25,1))
 hold on
-semilogy(1:iteration2, e2)
-legend("梯度下降算法","BB算法")
+semilogy(1:25, e12(1:25,1))
+hold on
+semilogy(1:25, e13(1:25,1))
+hold on
+semilogy(1:25, e14(1:25,1))
+legend("QR分解","SVD分解","极分解","Cayley变换")
 xlabel("迭代次数")
 ylabel("函数值的相对误差")
+title("梯度下降算法")
 
-subplot(1,2,2)
-semilogy(1:iteration2, ex1)
+subplot(2,2,2)
+semilogy(1:iteration2, ex11)
 hold on
-semilogy(1:iteration2, ex2)
-legend("梯度下降算法","BB算法")
+semilogy(1:iteration2, ex12)
+hold on
+semilogy(1:iteration2, ex13)
+hold on
+semilogy(1:iteration2, ex14)
+legend("QR分解","SVD分解","极分解","Cayley变换")
 xlabel("迭代次数")
-ylabel("点列关于极小值点的相对误差")
+ylabel("点列的相对误差")
+title("梯度下降算法")
+
+subplot(2,2,3)
+semilogy(1:25, e21(1:25,1))
+hold on
+semilogy(1:25, e22(1:25,1))
+hold on
+semilogy(1:25, e23(1:25,1))
+hold on
+semilogy(1:25, e24(1:25,1))
+legend("QR分解","SVD分解","极分解","Cayley变换")
+xlabel("迭代次数")
+ylabel("函数值的相对误差")
+title("BB算法")
+
+subplot(2,2,4)
+semilogy(1:iteration2, ex21)
+hold on
+semilogy(1:iteration2, ex22)
+hold on
+semilogy(1:iteration2, ex23)
+hold on
+semilogy(1:iteration2, ex24)
+legend("QR分解","SVD分解","极分解","Cayley变换")
+xlabel("迭代次数")
+ylabel("点列的相对误差")
+title("BB算法")
+%}
