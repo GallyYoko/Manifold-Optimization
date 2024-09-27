@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.7)  25 SEP 2024 16:56
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.7)  27 SEP 2024 17:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -627,17 +627,29 @@ File: Q2-figure/1.png Graphic file (type bmp)
 File: Q2-figure/2.png Graphic file (type bmp)
 <Q2-figure/2.png>
  [3]
+File: Q2-figure/3.png Graphic file (type bmp)
+<Q2-figure/3.png>
+File: Q2-figure/4.png Graphic file (type bmp)
+<Q2-figure/4.png>
+File: Q2-figure/5.png Graphic file (type bmp)
+<Q2-figure/5.png>
+ [4]
+File: Q2-figure/6.png Graphic file (type bmp)
+<Q2-figure/6.png>
+ [5]
+File: Q2-figure/7.png Graphic file (type bmp)
+<Q2-figure/7.png>
 \tf@thm=\write3
 \openout3 = `report.thm'.
 
- [4] (./report.aux) ) 
+ [6] [7] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 12847 strings out of 476179
- 293217 string characters out of 5813073
- 643318 words of memory out of 5000000
- 33377 multiletter control sequences out of 15000+600000
+ 12903 strings out of 476179
+ 294707 string characters out of 5813073
+ 646358 words of memory out of 5000000
+ 33428 multiletter control sequences out of 15000+600000
  485159 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  89i,11n,97p,393b,275s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.pdf (4 pages).
+Output written on report.pdf (7 pages).

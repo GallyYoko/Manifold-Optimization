@@ -1,4 +1,4 @@
-function [err,err_x] = BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,exa,exa_x)
+function [err,err_x,alpha_list] = BB_Method(func,gradfunc,x0,alpha0,M,alphamax,alphamin,rho,c,iteration1,method,iteration2,epsilon,slot,exa,exa_x)
 %{
 
 基于非单调线搜索回退法的梯度下降法
@@ -16,8 +16,15 @@ c-----------Armijo条件的判据
 iteration1--回退法的最大迭代次数
 method------收缩映射的方式
 iteration2--梯度下降法的最大迭代次数
+slot--------决定是否使用交替步长
 epsilon-----梯度阈值
-exa---------精确值
+exa---------函数值精确值
+exa_x-------自变量精确值
+
+输出:
+err---------函数值相对误差
+err_x-------自变量误差
+alpha_list--BB步长
 
 %}
 [n,p] = size(x0);
@@ -29,6 +36,7 @@ v1 = -gradfunc(x1);
 results = zeros(iteration2,1);
 err = zeros(iteration2,1);
 err_x = zeros(iteration2,1);
+alpha_list = zeros(iteration2,1);
 for i = 1:iteration2
     x = x1;
     v = v1;
@@ -55,10 +63,19 @@ for i = 1:iteration2
     v1 = -gradfunc(x1);
     s = x1-x;
     y = v-v1;
-    if mod(i,2) == 0
-        alphaABB = trace(s'*s)/trace(s'*y);
-    else
-        alphaABB = trace(s'*y)/trace(y'*y);
+    alphaSBB = trace(s'*y)/trace(y'*y);
+    alphaLBB = trace(s'*s)/trace(s'*y);
+    if slot == 0 % 使用交替步长
+        if mod(i,2) == 0 
+            alphaABB = trace(s'*s)/trace(s'*y);
+        else
+            alphaABB = trace(s'*y)/trace(y'*y);
+        end
+    elseif slot == 1 % 使用长步长
+        alphaABB = alphaLBB; 
+    elseif slot == -1 % 使用短步长
+        alphaABB = alphaSBB; 
     end
     alpha = min(alphamax,max(alphamin,alphaABB));
+    alpha_list(i,1) = alpha;
 end
