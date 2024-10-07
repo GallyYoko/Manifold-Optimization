@@ -2,12 +2,12 @@
 n = 500;
 p = 50;
 seed = 99;
+density = 0.5;
 
 %% 生成二次函数及其梯度、黎曼梯度
-load("A.mat");
-load("B.mat");
-load("exa.mat");
-load("exa_x.mat");
+[A,B] = Random_Coefficient(n,p,seed,density);
+exa = 0;
+exa_x = 0;
 func = @(x) trace(x'*A*x-2*x'*B);
 nablafunc = @(x) 2*A*x-2*B;
 gradfunc = @(x) nablafunc(x)-x*(x'*nablafunc(x)+nablafunc(x)'*x)/2;
@@ -21,16 +21,22 @@ vrho = 0.5;
 c = 0.001;
 iteration1 = 50;
 method = "qr";
-iteration2 = 50;
-epsilon = 100*eps;
+iteration2 = 1;
+epsilon = 10e-10;
 alphamin = 0.001;
 alphamax = 1000;
-M = 5;
+M = 1;
+slot = 0;
 
 %% 计算最小值的精确值
 % [exa,exa_x] = Exact_Value(A,B);
 
 %% 使用算法
+[err,alpha_list,x2] = BB_Method(func,gradfunc,x0,alpha0,M,alphamax,...
+    alphamin,rho,c,iteration1,method,iteration2,epsilon,slot,exa,exa_x);
+
+%% 不同BB步长的影响
+%{
 alpha = zeros(iteration2,3);
 e = zeros(iteration2,3);
 ex = zeros(iteration2,3);
@@ -56,6 +62,7 @@ xlabel("迭代次数")
 ylabel("BB步长")
 legend("短BB步长","交替BB步长","长BB步长")
 title("BB步长变化");
+%}
 
 %% M对算法的影响
 %{

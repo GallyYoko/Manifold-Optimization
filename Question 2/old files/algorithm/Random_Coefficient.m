@@ -1,4 +1,4 @@
-function [A,B] = Random_Coefficient(n,p,seed)
+function [A,B] = Random_Coefficient(n,p,seed,density)
 %{
 
 随机生成Stiefel流形上二次函数的系数矩阵
@@ -12,8 +12,6 @@ A,B---------二次函数tr(X'*A*X-2X'*B)的系数
 
 %}
 rng(seed);
-A = randn(n,n);
-a = rand(n,1);
-A = A'*A+diag(a);
-A = A/n;
+A = sprand(n,n,density);
+A = A'+A;
 B = randn(n,p);

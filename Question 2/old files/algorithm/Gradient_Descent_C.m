@@ -23,26 +23,27 @@ err---------函数值相对误差
 err_x-------自变量误差
 
 %}
-x = x0;
-q = 1;
-c = func(x);
-err = zeros(iteration2,1);
-err_x = zeros(iteration2,1);
-for i = 1:iteration2
-    v = -gradfunc(x);
-    if norm(v,"fro") <= epsilon
-        break;
-    end
-    t = t0;
-    for j = 1:iteration1
-        if func(Retract(x,t*v,method)) <= c-c1*t*norm(v,"fro")
+    x = x0;
+    q = 1;
+    c = func(x);
+    err = zeros(iteration2,1);
+    err_x = zeros(iteration2,1);
+    for i = 1:iteration2
+        v = -gradfunc(x);
+        if norm(v,"fro") <= epsilon
             break;
         end
-        t = rho*t;
+        t = t0;
+        for j = 1:iteration1
+            if func(Retract(x,t*v,method)) <= c-c1*t*norm(v,"fro")
+                break;
+            end
+            t = rho*t;
+        end
+        x = Retract(x,t*v,method);
+        c = (vrho*q*c+func(x))/(vrho*q+1);
+        q = vrho*q+1;
+        err(i,1) = abs(func(x)-exa)/abs(exa);
+        err_x(i,1) = norm(x-exa_x,"fro");
     end
-    x = Retract(x,t*v,method);
-    c = (vrho*q*c+func(x))/(vrho*q+1);
-    q = vrho*q+1;
-    err(i,1) = abs(func(x)-exa)/abs(exa);
-    err_x(i,1) = norm(x-exa_x,"fro");
 end
