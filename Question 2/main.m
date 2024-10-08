@@ -1,4 +1,4 @@
-function X = main
+function F = main
     
     %% 固定问题相关参数
     
@@ -37,7 +37,7 @@ function X = main
     Ipt.c = 0.001;                           % Armijo条件的判据
     Ipt.max_iter1 = 50;                      % 回退法的最大迭代次数
     Ipt.method = "qr";                       % 收缩映射的方式
-    Ipt.max_iter2 = 300;                     % 梯度下降法的最大迭代次数
+    Ipt.max_iter2 = 80;                     % 梯度下降法的最大迭代次数
     Ipt.epsilon = 10e-10;                    % 梯度阈值
     Ipt.alphamin = 0.001;                    % BB步长下界
     Ipt.alphamax = 1000;                     % BB步长上界
@@ -46,35 +46,39 @@ function X = main
 
     %% 调用算法
     
-    X = zeros(Ipt.max_iter2,6);
-    T = [0.005,0.05];
-    for idx1 = 1:2
-        Ipt.t0 = T(idx1);
-        Ipt.M = 1;
-        Opt1 = Gradient_Descent_N(Func,Ipt);
-        Ipt.M = 10;
-        Opt2 = Gradient_Descent_N(Func,Ipt);
-        Opt3 = Gradient_Descent_C(Func,Ipt);
+    F = zeros(Ipt.max_iter2,5);
+    X = zeros(Ipt.max_iter2,5);
+    APH = zeros(Ipt.max_iter2,5);
+    for idx1 = 1:3
+        Ipt.slot = 2-idx1;
+        Opt1 = BB_Method(Func,Ipt);
         for idx2 = 1:Ipt.max_iter2
-            X(idx2,3*idx1-3+1) = norm(Opt1.x{idx2}-Exa.x,"fro");
-            X(idx2,3*idx1-3+2) = norm(Opt2.x{idx2}-Exa.x,"fro");
-            X(idx2,3*idx1-3+3) = norm(Opt3.x{idx2}-Exa.x,"fro");
+            X(idx2,idx1) = norm(Opt1.x{idx2}-Exa.x,"fro");
+            F(idx2,idx1) = abs(Opt1.f{idx2}-Exa.f)/abs(Exa.f);
+            APH(idx2,idx1) = Opt1.alpha{idx2};
         end
     end
-    
-    subplot(1,2,1)
-    semilogy(1:300,X(1:300,1:3))
-    xlabel("迭代次数")
-    ylabel("点列相对误差")
-    legend("Armijo条件","Grippo条件","凸组合条件")
-    title("t_0=0.005");
 
-    subplot(1,2,2)
-    semilogy(1:300,X(1:300,4:6))
+    subplot(1,3,1)
+    semilogy(X)
     xlabel("迭代次数")
-    ylabel("点列相对误差")
-    legend("Armijo条件","Grippo条件","凸组合条件")
-    title("t_0=0.05");
+    ylabel("点列误差")
+    legend("短BB步长","交替BB步长","长BB步长")
+    title("自变量点列的误差变化");
+
+    subplot(1,3,2)
+    semilogy(F)
+    xlabel("迭代次数")
+    ylabel("函数值误差")
+    legend("短BB步长","交替BB步长","长BB步长")
+    title("函数值的相对误差变化");
+
+    subplot(1,3,3)
+    semilogy(APH)
+    xlabel("迭代次数")
+    ylabel("BB步长")
+    legend("短BB步长","交替BB步长","长BB步长")
+    title("BB步长的变化");
 
     % Opt2 = Gradient_Descent_C(Func,Ipt);
     % Opt3 = BB_Method(Func,Ipt);
