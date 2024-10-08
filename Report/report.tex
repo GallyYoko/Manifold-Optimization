@@ -236,33 +236,14 @@
 
 首先考虑实现二次函数的随机生成问题. 对于整数$n\geq p>0$, 欧氏空间$\mathbb{R}^{n\times p}$上的$Stiefel$流形为
 \[\textup{St}(n,p)=\{X\in\mathbb{R}^{n\times p}|X^T X=I_p\}.\]
-对于矩阵$B\in \mathbb{R}^{n\times p}$和对称正定矩阵$A\in\mathbb{R}^{n\times n}$, $St(n,p)$上的二次函数定义为
+对于矩阵$B\in \mathbb{R}^{n\times p}$和对称矩阵$A\in\mathbb{R}^{n\times n}$, $St(n,p)$上的二次函数定义为
 \[f(X;A,B)=\textup{tr}(X^T AX+2X^T B).\]
+
 故二次函数$f$的生成问题等价于矩阵$A,B$的生成问题. 在MATLAB中, 可以使用\textbf{randn}函数随机生成矩阵, 因此, 可以取
 \[B\leftarrow \textup{randn}(n,p).\]
-但MATLAB中并没有直接生成对称正定矩阵的函数. 为了随机生成$A$, 先考虑一个简单的引理: 
-\begin{lemma}
-    记集合$\mathcal{A}$为对称正定矩阵全体, 定义集合
-    \[\mathcal{B}=\{R^T R+D|R\in\mathbb{R}^{n\times n}, D=\textup{diag}(d_1,\cdots,d_n), 0<d_1,\cdots,d_n<1\},\]
-    则$\mathcal{A}=\mathcal{B}$. 
-\end{lemma}
-\begin{proof}
-    首先证明$\mathcal{B}\subseteq\mathcal{A}$. 对于任意的$B=R^T R+D\in\mathcal{B}$, 有
-    \[B^T=(R^T R+D)^T=R^T R+D^T=R^T R+D=B,\]
-    故$B$是对称的. 对于任意的$x\in\mathbb{R}^n_*$, 有
-    \[x^T Bx=(Rx)^T(Rx)+x^T Dx\geq x^T Dx\geq d_1 \lVert x \rVert_2^2>0.\]
-    因此, $B\in\mathcal{A}$.
+但MATLAB中并没有直接生成对称矩阵的函数. 不过, 我们可以注意到, 对于任意的方阵$\hat{A}$, 矩阵$\hat{A}+\hat{A}^T$是一个对称矩阵. 基于这一结论, 我们使用吴钢老师论文中的随机对称矩阵生成方法: 
 
-    再证明$\mathcal{A}\subseteq\mathcal{B}$. 对于任意的$A\in\mathcal{A}$, 记$\lambda>0$为$A$的最小特征值, 取$d=\min(\lambda/2,1/2)$, 则矩阵$A-dI_n$仍为对称正定矩阵. 注意到, 根据对称正定矩阵的Cholesky分解, 存在矩阵$R\in\mathbb{R}^{n\times n}$, 使得
-    \[A=(A-dI_n)+dI_n=R^T R+dI_n\in\mathcal{B}.\]
-    综上, $\mathcal{A}=\mathcal{B}$. 
-\end{proof}
-
-根据这个引理, 结合MATLAB中取值在$(0,1)$上的随机函数\textbf{rand}, 可以得到对称正定矩阵的随机生成方法:
-\begin{align*}
-    R&\leftarrow \textup{randn}(n,n),\\
-    A&\leftarrow R^T R+\textup{diag}(\textup{rand}(n)). 
-\end{align*}
+\[\hat{A}\leftarrow \textup{sprand}(n,n,0.5),\quad A\leftarrow \hat{A}+\hat{A}^T.\]
 
 详细的代码实现可以参考附录. 在下文中, 我们考虑$n=500$, $p=50$时各算法的表现, 取MATLAB中随机函数的种子为$99$, 生成的矩阵对$(A,B)$同样可见附录.
 

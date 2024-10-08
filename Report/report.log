@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.2)  6 OCT 2024 18:32
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.2)  8 OCT 2024 09:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -667,30 +667,28 @@ Package fontspec Info:
 [5]
 File: Q2-figure/1.png Graphic file (type bmp)
 <Q2-figure/1.png>
-
-
-[6]
 File: Q2-figure/2.png Graphic file (type bmp)
 <Q2-figure/2.png>
 
 
-[7]
+[6]
 File: Q2-figure/3.png Graphic file (type bmp)
 <Q2-figure/3.png>
+
+
+[7]
 File: Q2-figure/4.png Graphic file (type bmp)
 <Q2-figure/4.png>
+File: Q2-figure/5.png Graphic file (type bmp)
+<Q2-figure/5.png>
 
 
 [8]
-File: Q2-figure/5.png Graphic file (type bmp)
-<Q2-figure/5.png>
 File: Q2-figure/6.png Graphic file (type bmp)
 <Q2-figure/6.png>
 
 
 [9]
-
-[10]
 File: Q2-figure/7.png Graphic file (type bmp)
 <Q2-figure/7.png>
 \tf@thm=\write3
@@ -698,19 +696,19 @@ File: Q2-figure/7.png Graphic file (type bmp)
 
 
 
-[11] (./report.aux)
+[10] (./report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12910 strings out of 474234
- 301114 string characters out of 5736452
- 728767 words of memory out of 5000000
- 35360 multiletter control sequences out of 15000+600000
- 574049 words of font info for 135 fonts, out of 8000000 for 9000
+ 12899 strings out of 474234
+ 300819 string characters out of 5736452
+ 728766 words of memory out of 5000000
+ 35352 multiletter control sequences out of 15000+600000
+ 574033 words of font info for 133 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  93i,15n,111p,380b,673s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.pdf (11 pages).
+Output written on report.pdf (10 pages).

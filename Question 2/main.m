@@ -1,16 +1,21 @@
-function [Exa, Opt1, Opt2, Opt3] = main
+function Ipt = main
     
     %% 固定问题相关参数
     
     n = 500;
     p = 50;
+    A = load("A.mat").A;
+    B = load("B.mat").B;
+
+    %{
     seed = 99;
     density = 0.5;
     [A,B] = Random_Coefficient(n,p,seed,density);
+    %}
 
     %% 获得初始点
     
-    Ipt.x0 = Random_Initial(n,p,seed);
+    Ipt.x0 = load("x0.mat").x0;
 
     %% 固定算法相关参数
 
@@ -33,10 +38,9 @@ function [Exa, Opt1, Opt2, Opt3] = main
 
     %% 调用算法
 
-    Exa = Exact_Value(Func);
-    Opt1 = Gradient_Descent_N(Func,Ipt);
-    Opt2 = Gradient_Descent_C(Func,Ipt);
-    Opt3 = BB_Method(Func,Ipt);
+    % Opt1 = Gradient_Descent_N(Func,Ipt);
+    % Opt2 = Gradient_Descent_C(Func,Ipt);
+    % Opt3 = BB_Method(Func,Ipt);
 
     %% 定义各函数
 
